@@ -159,13 +159,24 @@ int InitImGui()
         {
             ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"demospeed 1", nullptr);
         }
- 
 
-        if (ImGui::Button("Shutdown Server"))
+        if (ImGui::Button("Set the time of day to Morning"))
         {
-            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"open 127.0.0.1", nullptr);
+            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"settimeofday 8:00", nullptr);
         }
-        ImGui::End();
+
+        if (ImGui::Button("Set the time of day to Afternoon"))
+      
+        {
+            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"settimeofday 12:00", nullptr);
+        }
+        
+
+        if (ImGui::Button("Set the time of day to Night"))
+        {
+            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"settimeofday 19:00", nullptr);
+        }
+
 
         // Rendering
         ImGui::EndFrame();
