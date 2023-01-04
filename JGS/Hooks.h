@@ -782,6 +782,7 @@ namespace Hooks
 						}
 					}
 
+
 					FindInventory(PC)->UpdateInventory();
 				}
 			}
