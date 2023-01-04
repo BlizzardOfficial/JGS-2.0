@@ -1,2 +1,5 @@
-# JGS
-This is JGS most of the code is really bad and needs to be be rewritten, if you do want to host just compile the dll and inject it into fortnite 1.7.2.
+JGS With a GUI (Version 1.7.2) 
+
+#Credits Jacobb626 , MagmaDev
+
+Meant to make 1.7.2 more user friendly while also adding compatibility for easy VPS usage
