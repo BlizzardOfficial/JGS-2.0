@@ -1,7 +1,7 @@
-JGS With a GUI (Version 1.7.2) 
+# JGS With a GUI (Version 1.7.2) 
 
-Credits Jacobb626 , MagmaDev
+# Credits Jacobb626 and MagmaDev
 
-Meant to make 1.7.2 more user friendly while also adding compatibility for easy VPS usage
+ Meant to make 1.7.2 more user friendly while also adding compatibility for easy VPS usage!
 
-TODO: Lategame and Auto Restarting
+# TODO: Lategame and Auto Restarting
