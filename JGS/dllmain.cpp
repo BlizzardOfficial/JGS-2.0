@@ -87,7 +87,7 @@ int InitImGui()
         style.Alpha = 1.0f;
         style.DisabledAlpha = 0.6000000238418579f;
         style.WindowPadding = ImVec2(8.0f, 8.0f);
-        style.WindowRounding = 0.5f;
+        style.WindowRounding = 25.20f;
         style.WindowBorderSize = 1.0f;
         style.WindowMinSize = ImVec2(32.0f, 32.0f);
         style.WindowTitleAlign = ImVec2(0.0f, 0.5f);
@@ -237,6 +237,11 @@ int InitImGui()
         if (ImGui::Button("Pause safezone"))
         {
             ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"pausesafezone", nullptr);
+        }
+
+        if (ImGui::Button("Restart Match"))
+        {
+            ((UGameplayStatics*)UGameplayStatics::StaticClass())->STATIC_OpenLevel(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, ((UKismetStringLibrary*)UKismetStringLibrary::StaticClass())->STATIC_Conv_StringToName(L"Athena_Terrain"), true, L"");
         }
 
         ImGui::Begin("TODM Bar");

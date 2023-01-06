@@ -266,6 +266,7 @@ namespace GPFuncs
 
 		auto NewCheatManager = (UFortCheatManager*)(Globals::GPS->STATIC_SpawnObject(UFortCheatManager::StaticClass(), PlayerController));
 		PlayerController->CheatManager = NewCheatManager;
+		PlayerController->OverriddenBackpackSize = 5;
 		NewCheatManager->BackpackSetSize(5);
 
 		auto NewInv = CreateInventoryForPlayerController(PlayerController);

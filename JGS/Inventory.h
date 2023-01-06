@@ -144,7 +144,7 @@ public:
                     auto NewFortPickup = (AFortPickupAthena*)(Util::SpawnActor(AFortPickupAthena::StaticClass(), PC->Pawn->K2_GetActorLocation(), {}));
                     NewFortPickup->PrimaryPickupItemEntry = ItemInstance->ItemEntry;
                     NewFortPickup->OnRep_PrimaryPickupItemEntry();
-                    NewFortPickup->TossPickup(PC->Pawn->K2_GetActorLocation(), nullptr, 999);
+                    NewFortPickup->TossPickup(PC->Pawn->K2_GetActorLocation(), nullptr, 5);
                 }
             }
 
@@ -154,7 +154,6 @@ public:
             }
         }
     }
-
     void ExecuteInventoryItem(FGuid InGuid)
     {
         if (PC)
@@ -177,7 +176,7 @@ public:
                             ((AFortPlayerPawn*)PC->Pawn)->PickUpActor(nullptr, (UFortDecoItemDefinition*)ItemInstance->GetItemDefinitionBP());
                         }
                     }
-                }
+                };
             }
         }
     }

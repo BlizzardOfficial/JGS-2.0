@@ -77,6 +77,8 @@ namespace Hooks
 
 				Discord::UpdateStatus("Server is now up and joinable!");
 
+				((AFortGameStateAthena*)Globals::World->GameState)->WarmupCountdownEndTime = 9999999;
+
 				StaticLoadObject<UBlueprintGeneratedClass>(L"/Game/Abilities/Player/Constructor/Perks/ContainmentUnit/GE_Constructor_ContainmentUnit_Applied.GE_Constructor_ContainmentUnit_Applied_C");
 			}
 		}
@@ -114,7 +116,7 @@ namespace Hooks
 
 			return NULL;
 		}
-		
+
 		if (FuncName.contains("ServerExecuteInventoryItem"))
 		{
 			auto PC = (AFortPlayerControllerAthena*)pObject;
@@ -211,7 +213,7 @@ namespace Hooks
 						WorldInventory->Inventory.ReplicatedEntries.Add(NewPickupWorldItem->ItemEntry);
 
 						FindInventory((AFortPlayerController*)PC)->UpdateInventory();
-						
+
 						// find the next available quickbar slot for pickup.
 						if (PickupSlot == -1)
 						{
@@ -659,7 +661,7 @@ namespace Hooks
 			if (Params->InstigatedBy && Params->InstigatedBy->IsA(AFortPlayerController::StaticClass()) && !BuildingActor->bPlayerPlaced)
 			{
 				auto FortController = (AFortPlayerController*)Params->InstigatedBy;
-				
+
 				if (FortController->MyFortPawn->CurrentWeapon && FortController->MyFortPawn->CurrentWeapon->WeaponData == FindObjectFast<UFortWeaponMeleeItemDefinition>("/Game/Athena/Items/Weapons/WID_Harvest_Pickaxe_Athena_C_T01.WID_Harvest_Pickaxe_Athena_C_T01"))
 					FortController->ClientReportDamagedResourceBuilding(BuildingActor, BuildingActor->ResourceType, Globals::MathLib->STATIC_RandomIntegerInRange(3, 6), false, false);
 			}
@@ -682,7 +684,7 @@ namespace Hooks
 
 				if (Params->PotentialResourceType == EFortResourceType::Metal)
 					ItemDef = FindObjectFast<UFortResourceItemDefinition>("/Game/Items/ResourcePickups/MetalItemData.MetalItemData");
-					 
+
 				int Count = 0;
 
 				auto WorldInventory = PC->WorldInventory;
@@ -731,7 +733,7 @@ namespace Hooks
 			if (BuildingActor)
 			{
 				auto PC = (AFortPlayerController*)(pObject);
-				
+
 				BuildingActor->Team = ((AFortPlayerStateAthena*)((AFortPlayerController*)pObject)->PlayerState)->TeamIndex;
 				BuildingActor->bPlayerPlaced = true;
 				BuildingActor->ForceNetUpdate();
