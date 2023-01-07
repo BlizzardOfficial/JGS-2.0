@@ -156,7 +156,10 @@ Index of this file:
 //   See 'Demo->Tables->Vertical Scrolling' or 'Demo->Tables->Advanced' for a demo of using the clipper.
 // - Note that auto-resizing columns don't play well with using the clipper.
 //   By default a table with _ScrollX but without _Resizable will have column auto-resize.
-//   So, if you want to use the clipper, make sure to either enable _Resizable, either setup columns width explicitly with _WidthFixed.
+//   So, if you want to use the clipper, make sure to either 
+// 
+// 
+//  _Resizable, either setup columns width explicitly with _WidthFixed.
 //-----------------------------------------------------------------------------
 // About clipping/culling of Columns in Tables:
 // - Both TableSetColumnIndex() and TableNextColumn() return true when the column is visible or performing
@@ -267,7 +270,7 @@ inline ImGuiTableFlags TableFixFlags(ImGuiTableFlags flags, ImGuiWindow* outer_w
     if ((flags & ImGuiTableFlags_SizingMask_) == 0)
         flags |= ((flags & ImGuiTableFlags_ScrollX) || (outer_window->Flags & ImGuiWindowFlags_AlwaysAutoResize)) ? ImGuiTableFlags_SizingFixedFit : ImGuiTableFlags_SizingStretchSame;
 
-    // Adjust flags: enable NoKeepColumnsVisible when using ImGuiTableFlags_SizingFixedSame
+    // Adjust flags:  NoKeepColumnsVisible when using ImGuiTableFlags_SizingFixedSame
     if ((flags & ImGuiTableFlags_SizingMask_) == ImGuiTableFlags_SizingFixedSame)
         flags |= ImGuiTableFlags_NoKeepColumnsVisible;
 

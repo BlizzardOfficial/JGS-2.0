@@ -138,7 +138,10 @@
 //   accurately measures pixel coverage for anti-aliasing, except in the case
 //   where multiple shapes overlap, in which case it overestimates the AA pixel
 //   coverage. Thus, anti-aliasing of intersecting shapes may look wrong. If
-//   this turns out to be a problem, you can re-enable the old rasterizer with
+//   this turns out to be a problem, you can re-
+// 
+// 
+//  the old rasterizer with
 //        #define STBTT_RASTERIZER_VERSION 1
 //   which will incur about a 15% speed hit.
 //

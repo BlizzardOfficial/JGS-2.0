@@ -20,7 +20,7 @@ namespace GPFuncs
 
 				auto NewFortPickup = reinterpret_cast<AFortPickupAthena*>(Util::SpawnActor(AFortPickupAthena::StaticClass(), SpawnLoc, FRotator()));
 
-				NewFortPickup->PrimaryPickupItemEntry.Count = 1;
+				NewFortPickup->PrimaryPickupItemEntry.Count = 5;
 				if (bIsConsumable)
 				{
 					bool bEpicOrLeg = Globals::MathLib->STATIC_RandomBoolWithWeight(0.07);
@@ -155,7 +155,7 @@ namespace GPFuncs
 					AmmoPickup->PrimaryPickupItemEntry.Count = AmmoDefintion->DropCount * 1.25;
 					AmmoPickup->PrimaryPickupItemEntry.ItemDefinition = AmmoDefintion;
 					AmmoPickup->OnRep_PrimaryPickupItemEntry();
-					AmmoPickup->TossPickup(SpawnLoc, nullptr, 999);
+					AmmoPickup->TossPickup(SpawnLoc, nullptr, 5);
 				}
 
 				Actor->K2_DestroyActor();
@@ -266,7 +266,7 @@ namespace GPFuncs
 
 		auto NewCheatManager = (UFortCheatManager*)(Globals::GPS->STATIC_SpawnObject(UFortCheatManager::StaticClass(), PlayerController));
 		PlayerController->CheatManager = NewCheatManager;
-		PlayerController->OverriddenBackpackSize = 5;
+		PlayerController->OverriddenBackpackSize = 0;
 		NewCheatManager->BackpackSetSize(5);
 
 		auto NewInv = CreateInventoryForPlayerController(PlayerController);

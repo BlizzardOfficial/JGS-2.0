@@ -44102,8 +44102,7 @@ bool UGameplayStatics::STATIC_FindCollisionUV(const struct FHitResult& Hit, int 
 // Function Engine.GameplayStatics.EnableLiveStreaming
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// bool                           Enable                         (Parm, ZeroConstructor, IsPlainOldData)
-
+// bool                           (Parm, ZeroConstructor, IsPlainOldData)
 void UGameplayStatics::STATIC_EnableLiveStreaming(bool Enable)
 {
 	static auto fn = UObject::FindObject<UFunction>("Function Engine.GameplayStatics.EnableLiveStreaming");
