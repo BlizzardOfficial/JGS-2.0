@@ -224,6 +224,13 @@ int InitImGui()
 
         ImGui::Spacing();
 
+        ImGui::Checkbox("LateGame?", &Globals::LateGame);
+
+        if (ImGui::Button("Start Match"))
+        {
+            Globals::PC->SwitchLevel(TEXT("Athena_Terrain"));
+        }
+
         if (ImGui::Button("Start Bus"))
         {
             ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"startaircraft", nullptr);
@@ -288,10 +295,6 @@ int InitImGui()
             ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"demospeed 1", nullptr);
         }
 
-        if (ImGui::Button("Demospeed Server (VERY FAST EDITION)"))
-        {
-            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"demospeed 80", nullptr);
-        }
 
         // Rendering
         ImGui::EndFrame();
@@ -446,7 +449,7 @@ DWORD WINAPI MainThread(LPVOID)
 
     Discord::UpdateStatus("Server is now loading map...");
 
-    Globals::PC->SwitchLevel(TEXT("Athena_Terrain"));
+    //  Globals::PC->SwitchLevel(TEXT("Athena_Terrain"));
 
     new std::thread(InitImGui);
 
@@ -457,6 +460,9 @@ DWORD WINAPI MainThread(LPVOID)
     Hooks::Init();
 
     LOG("Setup!");
+
+    auto NewConsolge = Globals::GPS->STATIC_SpawnObject(UFortConsole::StaticClass(), FortEngine->GameViewport);
+    FortEngine->GameViewport->ViewportConsole = (UFortConsole*)(NewConsolge);
 
     return 0;
 }

@@ -23,7 +23,8 @@ static T* FindObjectFast(std::string ObjectName, UClass* ObjectClass = UObject::
 //#define DBNO_ENABLED
 //#define SAME_TEAM
 //#define LOG_RPCS
-#define DUOS
+//#define DUOS
+#define SQUADS
 
 struct CharPart
 {
@@ -43,6 +44,7 @@ namespace Globals
     UKismetSystemLibrary* SystemLib;
     UCustomCharacterPart* HeadPart;
     UCustomCharacterPart* BodyPart;
+    bool LateGame = false;
     std::vector<UFortItemDefinition*> Traps;
     std::vector<UFortItemDefinition*> Consumables;
     std::vector<UFortItemDefinition*> SupplyDrop;

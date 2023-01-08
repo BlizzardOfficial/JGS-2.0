@@ -38,7 +38,6 @@
     <ClCompile Include="imgui_widgets.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Inventory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Net">

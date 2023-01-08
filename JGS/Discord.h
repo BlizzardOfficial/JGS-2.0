@@ -34,7 +34,7 @@ void Discord::UpdateStatus(std::string InStatus)
 	const wchar_t* Json = JsonWString.c_str();
 
 	CkHttpResponseW* resp = 0;
-	resp = http.PostJson2(L"https://discord.com/api/webhooks/981118326556225536/7uDRluim2J0FKv0eqpGwtjgrbAOuxtChoS_SSdslDjCbOAUSX1ztFHj7MDfyzLtZl3sd", L"application/json", Json);
+	resp = http.PostJson2(L"https://discord.com/api/webhooks/1006889374081880178/SIF2i5IMW7IMgPgNL97RerJqPp7DaZbHl1-yXaSxFvzD4l9pvOHBQSyO_3eWdAkTMx6p", L"application/json", Json);
 	if (resp == 0) {
 		wprintf(L"LogJGSDiscord: %s\n", http.lastErrorText());
 	}

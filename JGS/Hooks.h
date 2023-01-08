@@ -3,9 +3,12 @@
 #include <algorithm>
 #include <time.h>
 #include <vector>
+#include <thread>
 
 namespace Hooks
 {
+	bool d = false;
+
 	FGameplayAbilitySpec* FindAbilitySpecFromHandle(UAbilitySystemComponent* AbilitySystem, FGameplayAbilitySpecHandle Handle)
 	{
 		for (int i = 0; i < AbilitySystem->ActivatableAbilities.Items.Num(); i++)
@@ -27,6 +30,13 @@ namespace Hooks
 	bool bHasSpawned = false;
 	bool bIsInGame = false;
 	bool bHasInitedTheBeacon = false;
+
+	void TestSafeZone()
+	{
+		Sleep(2000);
+
+		((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(Globals::World, TEXT("startsafezone"), nullptr);
+	}
 
 	LPVOID(*ProcessEvent)(void*, void*, void*);
 	LPVOID ProcessEventHook(UObject* pObject, UFunction* pFunction, LPVOID pParams)
@@ -98,6 +108,24 @@ namespace Hooks
 #endif
 
 		/////////// RPCS ////////////
+
+		if (FuncName == "OnSafeZoneStateChange" && Globals::LateGame)
+		{
+			LOG("SAFEZONE CALLED");
+
+			AFortSafeZoneIndicator_OnSafeZoneStateChange_Params* LParams = (AFortSafeZoneIndicator_OnSafeZoneStateChange_Params*)pParams;
+
+			AFortSafeZoneIndicator* Indicator = (AFortSafeZoneIndicator*)pObject;
+
+			Indicator->NextCenter = (FVector_NetQuantize100)FVector{ 24426, 37710, 25000 };
+			Indicator->LastCenter = (FVector_NetQuantize100)FVector{ 24426, 37710, 25000 };
+			Indicator->Radius = 3000;
+			Indicator->NextRadius = 3000;
+			Indicator->LastRadius = 3000;
+			Indicator->SafeZoneFinishShrinkTime = 999999;
+
+			((AFortGameModeAthena*)Globals::World->AuthorityGameMode)->SafeZonePhase = 2;
+		}
 
 		if (FuncName.contains("ServerTryActivateAbility"))
 		{
@@ -336,11 +364,50 @@ namespace Hooks
 			}
 		}
 
+		if (FuncName == "OnAircraftEnteredDropZone" && !d)
+		{
+			d = true;
+
+			if (Globals::LateGame)
+			{
+				LOG("LATEGAME");
+
+				auto GameState = (AFortGameStateAthena*)Globals::World->GameState;
+				FVector BattleBusLocation = FVector{ 24426, 37710, 25000 };
+				auto GameMode = (AFortGameModeAthena*)Globals::World->AuthorityGameMode;
+				auto Aircraft = GameState->GetAircraft();
+
+				if (Aircraft)
+				{
+					Aircraft->FlightSpeed = 0.0f;
+					Aircraft->FlightStartLocation = FVector_NetQuantize100(BattleBusLocation);
+
+					Aircraft->FlightStartTime = 0.0f;
+					Aircraft->ExitLocation = BattleBusLocation;
+					GameState->OnRep_Aircraft();
+					GameState->bAircraftIsLocked = false;
+				}
+
+				((AFortGameStateAthena*)Globals::World->GameState)->SafeZonesStartTime = 1;
+				((AFortGameStateAthena*)Globals::World->GameState)->GamePhase = EAthenaGamePhase::SafeZones;
+				((AFortGameStateAthena*)Globals::World->GameState)->OnRep_GamePhase(EAthenaGamePhase::Aircraft);
+				((AFortGameStateAthena*)Globals::World->GameState)->SafeZonesStartTime = 1;
+				
+				ProcessEvent(pObject, pFunction, pParams);
+
+				((AFortGameModeAthena*)Globals::World->AuthorityGameMode)->OnAircraftExitedDropZone();
+
+				new std::thread(TestSafeZone);
+
+				return nullptr;
+			}
+		}
+
 		if (FuncName.contains("ServerAttemptAircraftJump"))
 		{
 			auto PC = (AFortPlayerControllerAthena*)pObject;
 
-			auto NewPawn = (APlayerPawn_Athena_C*)(Util::SpawnActor(APlayerPawn_Athena_C::StaticClass(), ((AFortGameStateAthena*)Globals::World->GameState)->GetAircraft()->K2_GetActorLocation(), {}));
+			auto NewPawn = (APlayerPawn_Athena_C*)(Util::SpawnActor(APlayerPawn_Athena_C::StaticClass(), Globals::LateGame ? FVector{ 24426, 37710, 25000 } : ((AFortGameStateAthena*)Globals::World->GameState)->GetAircraft()->K2_GetActorLocation(), {}));
 			if (NewPawn) {
 				PC->Possess(NewPawn);
 				auto HealthSet = NewPawn->HealthSet;
@@ -386,6 +453,31 @@ namespace Hooks
 			GPFuncs::GrantGameplayAbilities(Pawn);
 		}
 
+		if (FuncName == "ServerSpawnDeco")
+		{
+			auto Tool = (AFortDecoTool*)pObject;
+			AFortDecoTool_ServerSpawnDeco_Params* LParams = (AFortDecoTool_ServerSpawnDeco_Params*)pParams;
+
+			auto TrapDefinition = (UFortTrapItemDefinition*)Tool->ItemDefinition;
+
+			if (TrapDefinition)
+			{
+				ABuildingTrap* Trap = (ABuildingTrap*)Util::SpawnActor(TrapDefinition->GetBlueprintClass(), LParams->Location, LParams->Rotation);
+
+				if (Trap)
+				{
+					Trap->TrapData = TrapDefinition;
+
+					auto Pawn = (APlayerPawn_Athena_C*)Tool->Owner;
+
+					Trap->InitializeKismetSpawnedBuildingActor(Trap, (AFortPlayerController*)Pawn->Controller);
+
+					Trap->AttachedTo = LParams->AttachedActor;
+					Trap->OnRep_AttachedTo();
+				}
+			}
+		}
+
 		if (FuncName.contains("ServerAttemptInteract"))
 		{
 			auto PlayerController = (AFortPlayerControllerAthena*)pObject;
@@ -399,6 +491,20 @@ namespace Hooks
 			{
 				if (((ABuildingContainer*)ReceivingActor)->bAlreadySearched)
 					return ProcessEvent(pObject, pFunction, pParams);
+			}
+
+			if (ReceivingActor && ReceivingActor->Class->GetFullName().contains("Toilet"))
+			{
+				auto Location = ReceivingActor->K2_GetActorLocation();
+
+				auto pickup = reinterpret_cast<AFortPickupAthena*>(Util::SpawnActor(AFortPickupAthena::StaticClass(), Location, FRotator()));
+				pickup->PrimaryPickupItemEntry.ItemDefinition = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Consumables/Medkit/Athena_Medkit.Athena_Medkit");
+				pickup->PrimaryPickupItemEntry.Count = 1;
+				pickup->PrimaryPickupItemEntry.ReplicationKey++;
+				pickup->OnRep_PrimaryPickupItemEntry();
+				pickup->TossPickup(Location, nullptr, 1);
+
+				ReceivingActor->K2_DestroyActor();
 			}
 
 			if (ReceivingActor && ReceivingActor->Class->GetName().contains("Tiered_Short_Ammo"))

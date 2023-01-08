@@ -62,6 +62,42 @@ public:
         FortInventory->Inventory.ReplicatedEntries.Add(RoofWorldBuildItem->ItemEntry);
         FortInventory->Inventory.ItemInstances.Add(RoofWorldBuildItem);
         QuickBars->ServerAddItemInternal(RoofWorldBuildItem->GetItemGuid(), EFortQuickBars::Secondary, 3);
+
+        if (Globals::LateGame)
+        {
+            auto ShotItem = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Weapons/WID_Shotgun_SemiAuto_Athena_R_Ore_T03.WID_Shotgun_SemiAuto_Athena_R_Ore_T03")->CreateTemporaryItemInstanceBP(1, 0);
+            auto ShotWorldItem = reinterpret_cast<UFortWorldItem*>(ShotItem);
+            ShotWorldItem->ItemEntry.LoadedAmmo = 8;
+            ShotWorldItem->ItemEntry.ReplicationKey++;
+            FortInventory->Inventory.ReplicatedEntries.Add(ShotWorldItem->ItemEntry);
+            FortInventory->Inventory.ItemInstances.Add(ShotWorldItem);
+            QuickBars->ServerAddItemInternal(ShotWorldItem->GetItemGuid(), EFortQuickBars::Primary, 1);
+
+            auto ArItem = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Weapons/WID_Assault_Auto_Athena_R_Ore_T03.WID_Assault_Auto_Athena_R_Ore_T03")->CreateTemporaryItemInstanceBP(1, 0);
+            auto ArWorldItem = reinterpret_cast<UFortWorldItem*>(ArItem);
+            ArWorldItem->ItemEntry.LoadedAmmo = 30;
+            ArWorldItem->ItemEntry.ReplicationKey++;
+            FortInventory->Inventory.ReplicatedEntries.Add(ArWorldItem->ItemEntry);
+            FortInventory->Inventory.ItemInstances.Add(ArWorldItem);
+            QuickBars->ServerAddItemInternal(ArWorldItem->GetItemGuid(), EFortQuickBars::Primary, 2);
+
+            auto ShowAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataShells.AthenaAmmoDataShells")->CreateTemporaryItemInstanceBP(1, 0);
+            auto ShowAmmoWorld = reinterpret_cast<UFortWorldItem*>(ShowAmmo);
+            ShowAmmoWorld->ItemEntry.Count = 10;
+            ShowAmmoWorld->ItemEntry.ReplicationKey++;
+            FortInventory->Inventory.ReplicatedEntries.Add(ShowAmmoWorld->ItemEntry);
+            FortInventory->Inventory.ItemInstances.Add(ShowAmmoWorld);
+            QuickBars->ServerAddItemInternal(ShowAmmoWorld->GetItemGuid(), EFortQuickBars::Secondary, 4);
+
+           // auto ArAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataBulletsMedium.AthenaAmmoDataBulletsMedium")->CreateTemporaryItemInstanceBP(1, 0);
+            auto ArAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Traps/TID_Floor_Spikes_Athena_R_T03.TID_Floor_Spikes_Athena_R_T03")->CreateTemporaryItemInstanceBP(1, 0);
+            auto ArAmmoWorld = reinterpret_cast<UFortWorldItem*>(ArAmmo);
+            ArAmmoWorld->ItemEntry.Count = 100;
+            ArAmmoWorld->ItemEntry.ReplicationKey++;
+            FortInventory->Inventory.ReplicatedEntries.Add(ArAmmoWorld->ItemEntry);
+            FortInventory->Inventory.ItemInstances.Add(ArAmmoWorld);
+            QuickBars->ServerAddItemInternal(ArAmmoWorld->GetItemGuid(), EFortQuickBars::Secondary, 5);
+        }
     }
 
     void SetupInventory()
@@ -122,12 +158,6 @@ public:
         PC->WorldInventory->Inventory.MarkArrayDirty();
 	}
 
-    
-    
-    void ServerSpawnDeco(DecoTool, nullptr, &ServerSpawnDeco_params); // Spawn the trap
-    }
-
-    
     void SpawnAllLootInInventory()
     {
         if (PC) {
@@ -187,29 +217,6 @@ public:
         }
     }
 };
-
-if (BuildingRotationOffset != 0) // skunked
-{
-    // const struct FVector_NetQuantize10& BuildingLocation, const struct FRotator& BuildingRotation, const struct FVector_NetQuantize10& Location, const struct FRotator& Rotation, TEnumAsByte<EBuildingAttachmentType> InBuildingAttachmentType
-    struct parms { FVector BuildingLocation; FRotator BuildingRotation; FVector Location; FRotator Rotation; };
-
-    auto Params = (parms*)Parameters;
-
-    TrapLocation = Params->Location;
-    TrapRotation = Params->Rotation;
-}
-
-ServerSpawnDeco_Params ServerSpawnDeco_params = { TrapLocation, TrapRotation, NewBuilding };
-
-ServerSpawnDeco(DecoTool, nullptr, &ServerSpawnDeco_params); // Spawn the trap
-    }
-}
-
-
-
-
-
-
 
 static Inventory* FindInventory(AFortPlayerController* PC)
 {
