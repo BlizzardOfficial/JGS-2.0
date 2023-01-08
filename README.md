@@ -4,4 +4,5 @@
 
  Meant to make 1.7.2 more user friendly while also adding compatibility for easy VPS usage!
 
-TODO: Lategame and Auto Restarting
+# Features in JGS 2.0
+Lategame + GUI + Traps
