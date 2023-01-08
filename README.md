@@ -1,7 +1,7 @@
-# JGS With a GUI (Version 1.7.2) 
+# JGS 2.0 (Version 1.7.2) 
 
-# Credits: Jacobb626 and MagmaDev
+# Credits: Jacobb626, MagmaDev, Spring and Blizzarr
 
  Meant to make 1.7.2 more user friendly while also adding compatibility for easy VPS usage!
-
-TODO: Lategame and Auto Restarting
+# New Features in JGS 2.0
+Lategame, Full Control Panel (Beta) and working Traps
