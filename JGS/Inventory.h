@@ -122,6 +122,12 @@ public:
         PC->WorldInventory->Inventory.MarkArrayDirty();
 	}
 
+    
+    
+    void ServerSpawnDeco(DecoTool, nullptr, &ServerSpawnDeco_params); // Spawn the trap
+    }
+
+    
     void SpawnAllLootInInventory()
     {
         if (PC) {
@@ -181,6 +187,29 @@ public:
         }
     }
 };
+
+if (BuildingRotationOffset != 0) // skunked
+{
+    // const struct FVector_NetQuantize10& BuildingLocation, const struct FRotator& BuildingRotation, const struct FVector_NetQuantize10& Location, const struct FRotator& Rotation, TEnumAsByte<EBuildingAttachmentType> InBuildingAttachmentType
+    struct parms { FVector BuildingLocation; FRotator BuildingRotation; FVector Location; FRotator Rotation; };
+
+    auto Params = (parms*)Parameters;
+
+    TrapLocation = Params->Location;
+    TrapRotation = Params->Rotation;
+}
+
+ServerSpawnDeco_Params ServerSpawnDeco_params = { TrapLocation, TrapRotation, NewBuilding };
+
+ServerSpawnDeco(DecoTool, nullptr, &ServerSpawnDeco_params); // Spawn the trap
+    }
+}
+
+
+
+
+
+
 
 static Inventory* FindInventory(AFortPlayerController* PC)
 {

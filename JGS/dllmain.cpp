@@ -288,6 +288,10 @@ int InitImGui()
             ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"demospeed 1", nullptr);
         }
 
+        if (ImGui::Button("Demospeed Server (VERY FAST EDITION)"))
+        {
+            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"demospeed 80", nullptr);
+        }
 
         // Rendering
         ImGui::EndFrame();
