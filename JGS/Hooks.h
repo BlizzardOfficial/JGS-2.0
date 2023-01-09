@@ -373,7 +373,7 @@ namespace Hooks
 				LOG("LATEGAME");
 
 				auto GameState = (AFortGameStateAthena*)Globals::World->GameState;
-				FVector BattleBusLocation = FVector{ 39781, 61621, 25000 };
+				FVector BattleBusLocation = FVector{ 39781, 61621, 25000 }; // moisty mire
 				auto GameMode = (AFortGameModeAthena*)Globals::World->AuthorityGameMode;
 				auto Aircraft = GameState->GetAircraft();
 
