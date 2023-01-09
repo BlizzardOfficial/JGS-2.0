@@ -90,13 +90,13 @@ public:
             QuickBars->ServerAddItemInternal(ShowAmmoWorld->GetItemGuid(), EFortQuickBars::Secondary, 4);
 
            // auto ArAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataBulletsMedium.AthenaAmmoDataBulletsMedium")->CreateTemporaryItemInstanceBP(1, 0);
-            auto ArAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Traps/TID_Floor_Spikes_Athena_R_T03.TID_Floor_Spikes_Athena_R_T03")->CreateTemporaryItemInstanceBP(1, 0);
+            auto ArAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Traps/TID_Ceiling_Electric_Single_Athena_R_T03.TID_Ceiling_Electric_Single_Athena_R_T03")->CreateTemporaryItemInstanceBP(1, 0);
             auto ArAmmoWorld = reinterpret_cast<UFortWorldItem*>(ArAmmo);
             ArAmmoWorld->ItemEntry.Count = 100;
             ArAmmoWorld->ItemEntry.ReplicationKey++;
             FortInventory->Inventory.ReplicatedEntries.Add(ArAmmoWorld->ItemEntry);
             FortInventory->Inventory.ItemInstances.Add(ArAmmoWorld);
-            QuickBars->ServerAddItemInternal(ArAmmoWorld->GetItemGuid(), EFortQuickBars::Secondary, 5);
+            QuickBars->ServerAddItemInternal(ArAmmoWorld->GetItemGuid(), EFortQuickBars::Secondary, 6);
         }
     }
 

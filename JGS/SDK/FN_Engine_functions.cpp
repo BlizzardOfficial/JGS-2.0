@@ -40773,7 +40773,11 @@ void UKismetSystemLibrary::STATIC_DrawDebugCoordinateSystem(class UObject* World
 // struct FVector                 Origin                         (ConstParm, Parm, IsPlainOldData)
 // struct FVector                 Direction                      (ConstParm, Parm, IsPlainOldData)
 // float                          Length                         (Parm, ZeroConstructor, IsPlainOldData)
-// float                          AngleWidth                     (Parm, ZeroConstructor, IsPlainOldData)
+// float                          Angle
+// 
+// 
+// 
+// th                     (Parm, ZeroConstructor, IsPlainOldData)
 // float                          AngleHeight                    (Parm, ZeroConstructor, IsPlainOldData)
 // int                            NumSides                       (Parm, ZeroConstructor, IsPlainOldData)
 // struct FLinearColor            LineColor                      (Parm, IsPlainOldData)
