@@ -45558,16 +45558,12 @@ void UFortCheatManager::God()
 }
 
 
-// Function FortniteGame.FortCheatManager.Give
-// 
-// 
-// 
+// Function FortniteGame.FortCheatManager.GiveWood
 // (Final, Exec, Native, Public)
 // Parameters:
 // int                            Amount                         (Parm, ZeroConstructor, IsPlainOldData)
 
-void UFortCheatManager::Give
-(int Amount)
+void UFortCheatManager::GiveWood(int Amount)
 {
 	static auto fn = UObject::FindObject<UFunction>("Function FortniteGame.FortCheatManager.GiveWood");
 

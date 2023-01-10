@@ -77,9 +77,8 @@ namespace Misc
 		{
 			UFortResourceItemDefinition* ResourceDef = nullptr;
 
-			if (Controller->CurrentResourceType == EFortResourceType::Wood
-				)
-				ResourceDef = FindObjectFast<UFortResourceItemDefinition>("/Game/Items/ResourcePickups/ItemData.WoodItemData");
+			if (Controller->CurrentResourceType == EFortResourceType::Wood)
+				ResourceDef = FindObjectFast<UFortResourceItemDefinition>("/Game/Items/ResourcePickups/WoodItemData.WoodItemData");
 
 			if (Controller->CurrentResourceType == EFortResourceType::Stone)
 				ResourceDef = FindObjectFast<UFortResourceItemDefinition>("/Game/Items/ResourcePickups/StoneItemData.StoneItemData");
