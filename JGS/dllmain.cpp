@@ -233,17 +233,17 @@ int InitImGui()
 
         if (ImGui::Button("Start Bus"))
         {
-            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"startaircraft", nullptr);
+            ExecuteConsoleCommand(L"startaircraft");
         }
 
         if (ImGui::Button("Start Safezone"))
         {
-            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"startsafezone", nullptr);
+            ExecuteConsoleCommand(L"startsafezone");
         }
 
         if (ImGui::Button("Pause safezone"))
         {
-            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"pausesafezone", nullptr);
+            ExecuteConsoleCommand(L"pausesafezone");
         }
 
         if (ImGui::Button("Restart Match"))
@@ -256,29 +256,29 @@ int InitImGui()
 
         if (ImGui::Button("Destory TODM"))
         {
-            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"destroyall FortTimeOfDayManager", nullptr);
+            ExecuteConsoleCommand(L"destroyall FortTimeOfDayManager");
         }
 
         if (ImGui::Button("Set the time of day to Morning"))
         {
-            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"settimeofday 8:00", nullptr);
+            ExecuteConsoleCommand(L"settimeofday 8:00");
         }
 
         if (ImGui::Button("Set the time of day to Afternoon"))
 
         {
-            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"settimeofday 12:00", nullptr);
+            ExecuteConsoleCommand(L"settimeofday 12:00");
         }
 
         if (ImGui::Button("Set the time of day to Night"))
         {
-            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"settimeofday 21:00", nullptr);
+            ExecuteConsoleCommand(L"settimeofday 21:00");
         }
 
 
         if (ImGui::Button("Set the time of day to Midnight"))
         {
-            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"settimeofday 1:00", nullptr);
+            ExecuteConsoleCommand(L"settimeofday 1:00");
         }
 
         ImGui::Begin("Speed Commands");
@@ -286,13 +286,13 @@ int InitImGui()
 
         if (ImGui::Button("Demospeed Server"))
         {
-            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"demospeed 20", nullptr);
+            ExecuteConsoleCommand(L"demospeed 20");
         }
 
 
         if (ImGui::Button("Demospeed Server by Default"))
         {
-            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"demospeed 1", nullptr);
+            ExecuteConsoleCommand(L"demospeed 1");
         }
 
 
@@ -325,6 +325,17 @@ int InitImGui()
     ::UnregisterClassW(wc.lpszClassName, wc.hInstance);
 
     return 0;
+}
+
+static void ExecuteConsoleCommand(FString cmd) {
+
+    struct { SDK::UObject* WorldContextObject; SDK::FString Command; SDK::UObject* SpecificPlayer; } params{ UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, cmd, nullptr};
+
+    auto KSL = UObject::FindObject<UClass>("/Script/Engine.Default__KismetSystemLibrary");
+
+    auto Func = UObject::FindObject<UFunction>("/Script/Engine.KismetSystemLibrary.ExecuteConsoleCommand");
+
+    KSL->ProcessEvent(Func, &params);
 }
 
 bool CreateDeviceD3D(HWND hWnd)
