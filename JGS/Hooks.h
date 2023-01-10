@@ -117,8 +117,8 @@ namespace Hooks
 
 			AFortSafeZoneIndicator* Indicator = (AFortSafeZoneIndicator*)pObject;
 
-			Indicator->NextCenter = (FVector_NetQuantize100)FVector{ 39781, 61621, 25000 };
-			Indicator->LastCenter = (FVector_NetQuantize100)FVector{ 39781, 61621, 25000 };
+			Indicator->NextCenter = (FVector_NetQuantize100)FVector{ 26479, 41847, 20000 };
+			Indicator->LastCenter = (FVector_NetQuantize100)FVector{ 26479, 41847, 20000 };
 			Indicator->Radius = 7500;
 			Indicator->NextRadius = 7500;
 			Indicator->LastRadius = 7500;
@@ -373,7 +373,7 @@ namespace Hooks
 				LOG("LATEGAME");
 
 				auto GameState = (AFortGameStateAthena*)Globals::World->GameState;
-				FVector BattleBusLocation = FVector{ 39781, 61621, 25000 }; // moisty mire
+				FVector BattleBusLocation = FVector{ 26479, 41847, 20000 }; // moisty mire
 				auto GameMode = (AFortGameModeAthena*)Globals::World->AuthorityGameMode;
 				auto Aircraft = GameState->GetAircraft();
 
@@ -407,7 +407,7 @@ namespace Hooks
 		{
 			auto PC = (AFortPlayerControllerAthena*)pObject;
 
-			auto NewPawn = (APlayerPawn_Athena_C*)(Util::SpawnActor(APlayerPawn_Athena_C::StaticClass(), Globals::LateGame ? FVector{ 39781, 61621, 25000 } : ((AFortGameStateAthena*)Globals::World->GameState)->GetAircraft()->K2_GetActorLocation(), {}));
+			auto NewPawn = (APlayerPawn_Athena_C*)(Util::SpawnActor(APlayerPawn_Athena_C::StaticClass(), Globals::LateGame ? FVector{ 26479, 41847, 20000 } : ((AFortGameStateAthena*)Globals::World->GameState)->GetAircraft()->K2_GetActorLocation(), {}));
 			if (NewPawn) {
 				PC->Possess(NewPawn);
 				auto HealthSet = NewPawn->HealthSet;

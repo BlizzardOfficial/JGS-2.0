@@ -83,11 +83,11 @@ public:
 
             auto ShowAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataShells.AthenaAmmoDataShells")->CreateTemporaryItemInstanceBP(1, 0);
             auto ShowAmmoWorld = reinterpret_cast<UFortWorldItem*>(ShowAmmo);
-            ShowAmmoWorld->ItemEntry.Count = 10;
+            ShowAmmoWorld->ItemEntry.Count = 10; 
             ShowAmmoWorld->ItemEntry.ReplicationKey++;
             FortInventory->Inventory.ReplicatedEntries.Add(ShowAmmoWorld->ItemEntry);
             FortInventory->Inventory.ItemInstances.Add(ShowAmmoWorld);
-            QuickBars->ServerAddItemInternal(ShowAmmoWorld->GetItemGuid(), EFortQuickBars::Secondary, 4);
+            QuickBars->ServerAddItemInternal(ShowAmmoWorld->GetItemGuid(), EFortQuickBars::Secondary, 3);
 
            // auto ArAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataBulletsMedium.AthenaAmmoDataBulletsMedium")->CreateTemporaryItemInstanceBP(1, 0);
             auto ArAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Traps/TID_Ceiling_Electric_Single_Athena_R_T03.TID_Ceiling_Electric_Single_Athena_R_T03")->CreateTemporaryItemInstanceBP(1, 0);
@@ -96,7 +96,17 @@ public:
             ArAmmoWorld->ItemEntry.ReplicationKey++;
             FortInventory->Inventory.ReplicatedEntries.Add(ArAmmoWorld->ItemEntry);
             FortInventory->Inventory.ItemInstances.Add(ArAmmoWorld);
-            QuickBars->ServerAddItemInternal(ArAmmoWorld->GetItemGuid(), EFortQuickBars::Secondary, 6);
+            QuickBars->ServerAddItemInternal(ArAmmoWorld->GetItemGuid(), EFortQuickBars::Secondary, 4);
+           
+            // auto ArAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataBulletsMedium.AthenaAmmoDataBulletsMedium")->CreateTemporaryItemInstanceBP(1, 0);
+            auto ArAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Traps/TID_Ceiling_Electric_Single_Athena_R_T03.TID_Ceiling_Electric_Single_Athena_R_T03")->CreateTemporaryItemInstanceBP(1, 0);
+            auto ArAmmoWorld = reinterpret_cast<UFortWorldItem*>(ArAmmo);
+            ArAmmoWorld->ItemEntry.Count = 100;
+            ArAmmoWorld->ItemEntry.ReplicationKey++;
+            FortInventory->Inventory.ReplicatedEntries.Add(ArAmmoWorld->ItemEntry);
+            FortInventory->Inventory.ItemInstances.Add(ArAmmoWorld);
+            QuickBars->ServerAddItemInternal(ArAmmoWorld->GetItemGuid(), EFortQuickBars::Secondary, 4);
+        
         }
     }
 
